@@ -1,0 +1,64 @@
+{
+  "floor_id": 1,
+  "name": "Test Floor",
+  "theme": "dungeon",
+  "rooms": [
+	{
+	  "id": 1,
+	  "x": 0,
+	  "y": 0,
+	  "type": "empty",
+	  "description": "Starting room"
+	},
+	{
+	  "id": 2,
+	  "x": 1,
+	  "y": 0,
+	  "type": "combat",
+	  "description": "First combat",
+	  "enemies": [
+		{"type": "goblin", "pos_x": 2, "pos_y": 0},
+		{"type": "goblin", "pos_x": -2, "pos_y": 1}
+	  ]
+	},
+	{
+	  "id": 3,
+	  "x": 2,
+	  "y": 0,
+	  "type": "treasure",
+	  "description": "Reward room"
+	},
+	{
+	  "id": 4,
+	  "x": 1,
+	  "y": 1,
+	  "type": "combat",
+	  "enemies": [
+		{"type": "skeleton", "pos_x": 0, "pos_y": 0}
+	  ]
+	},
+	{
+	  "id": 5,
+	  "x": 1,
+	  "y": -1,
+	  "type": "empty"
+	},
+	{
+	  "id": 6,
+	  "x": 3,
+	  "y": 0,
+	  "type": "boss",
+	  "description": "Boss room",
+	  "enemies": [
+		{"type": "boss_skeleton_king", "pos_x": 0, "pos_y": 0}
+	  ]
+	}
+  ],
+  "connections": [
+	{"from": 1, "to": 2, "direction": "east"},
+	{"from": 2, "to": 3, "direction": "east"},
+	{"from": 2, "to": 4, "direction": "north"},
+	{"from": 2, "to": 5, "direction": "south"},
+	{"from": 3, "to": 6, "direction": "east"}
+  ]
+}
