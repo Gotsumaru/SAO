@@ -1,74 +1,230 @@
-[gd_scene load_steps=9 format=3 uid="uid://bhlmqj5jqaa3e"]
+[gd_scene load_steps=18 format=3 uid="uid://bhlmqj5jqaa3e"]
 
-[ext_resource type="Script" uid="uid://d3mkadeopfnuv" path="res://scripts/Player.gd" id="1_uvnfx"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_player"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cvnsp"]
-radius = 0.4
-height = 1.8
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.35
+height = 1.75
 
-[sub_resource type="SphereMesh" id="SphereMesh_head"]
-radius = 0.25
+[sub_resource type="SphereMesh" id="SphereMesh_1"]
+radius = 0.11
+height = 0.22
+radial_segments = 12
+rings = 8
 
-[sub_resource type="BoxMesh" id="BoxMesh_torso"]
-size = Vector3(0.6, 0.9, 0.3)
+[sub_resource type="CylinderMesh" id="CylinderMesh_1"]
+top_radius = 0.055
+bottom_radius = 0.065
+height = 0.08
+radial_segments = 8
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_arm"]
-top_radius = 0.12
-bottom_radius = 0.12
-height = 0.8
+[sub_resource type="BoxMesh" id="BoxMesh_1"]
+size = Vector3(0.35, 0.25, 0.18)
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_leg"]
-top_radius = 0.15
-bottom_radius = 0.15
-height = 1.0
+[sub_resource type="BoxMesh" id="BoxMesh_2"]
+size = Vector3(0.32, 0.22, 0.16)
 
-[sub_resource type="StandardMaterial3D" id="Material_skin"]
-albedo_color = Color(1, 0.8, 0.6, 1)
+[sub_resource type="BoxMesh" id="BoxMesh_3"]
+size = Vector3(0.3, 0.15, 0.2)
 
-[sub_resource type="StandardMaterial3D" id="Material_cloth"]
-albedo_color = Color(0.2, 0.4, 0.8, 1)
+[sub_resource type="SphereMesh" id="SphereMesh_2"]
+radius = 0.045
+radial_segments = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_2"]
+top_radius = 0.055
+bottom_radius = 0.045
+height = 0.32
+radial_segments = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3"]
+top_radius = 0.045
+bottom_radius = 0.035
+height = 0.28
+radial_segments = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_4"]
+size = Vector3(0.07, 0.18, 0.04)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4"]
+top_radius = 0.075
+bottom_radius = 0.055
+height = 0.45
+radial_segments = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5"]
+top_radius = 0.055
+bottom_radius = 0.04
+height = 0.4
+radial_segments = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_5"]
+size = Vector3(0.1, 0.06, 0.24)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
+albedo_color = Color(0.95, 0.8, 0.65, 1)
+roughness = 0.7
+specular = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2"]
+albedo_color = Color(0.2, 0.35, 0.7, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3"]
+albedo_color = Color(0.15, 0.15, 0.25, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4"]
+albedo_color = Color(0.1, 0.08, 0.05, 1)
+roughness = 0.6
+metallic = 0.1
 
 [node name="Player" type="CharacterBody3D"]
-script = ExtResource("1_uvnfx")
+script = ExtResource("1_player")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-shape = SubResource("CapsuleShape3D_cvnsp")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
+shape = SubResource("CapsuleShape3D_1")
 
-[node name="MeshContainer" type="Node3D" parent="."]
+[node name="Skeleton" type="Node3D" parent="."]
 
-[node name="Head" type="MeshInstance3D" parent="MeshContainer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
-mesh = SubResource("SphereMesh_head")
-surface_material_override/0 = SubResource("Material_skin")
+[node name="Pelvis" type="Node3D" parent="Skeleton"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.525, 0)
 
-[node name="Torso" type="MeshInstance3D" parent="MeshContainer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
-mesh = SubResource("BoxMesh_torso")
-surface_material_override/0 = SubResource("Material_cloth")
+[node name="PelvisMesh" type="MeshInstance3D" parent="Skeleton/Pelvis"]
+mesh = SubResource("BoxMesh_3")
+surface_material_override/0 = SubResource("StandardMaterial3D_3")
 
-[node name="ArmLeft" type="MeshInstance3D" parent="MeshContainer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 1.2, 0)
-mesh = SubResource("CylinderMesh_arm")
-surface_material_override/0 = SubResource("Material_skin")
+[node name="Abdomen" type="Node3D" parent="Skeleton/Pelvis"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.185, 0)
 
-[node name="ArmRight" type="MeshInstance3D" parent="MeshContainer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 1.2, 0)
-mesh = SubResource("CylinderMesh_arm")
-surface_material_override/0 = SubResource("Material_skin")
+[node name="AbdomenMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen"]
+mesh = SubResource("BoxMesh_2")
+surface_material_override/0 = SubResource("StandardMaterial3D_2")
 
-[node name="LegLeft" type="MeshInstance3D" parent="MeshContainer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.5, 0)
-mesh = SubResource("CylinderMesh_leg")
-surface_material_override/0 = SubResource("Material_cloth")
+[node name="Chest" type="Node3D" parent="Skeleton/Pelvis/Abdomen"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.235, 0)
 
-[node name="LegRight" type="MeshInstance3D" parent="MeshContainer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.5, 0)
-mesh = SubResource("CylinderMesh_leg")
-surface_material_override/0 = SubResource("Material_cloth")
+[node name="ChestMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen/Chest"]
+mesh = SubResource("BoxMesh_1")
+surface_material_override/0 = SubResource("StandardMaterial3D_2")
+
+[node name="Neck" type="Node3D" parent="Skeleton/Pelvis/Abdomen/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.165, 0)
+
+[node name="NeckMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen/Chest/Neck"]
+mesh = SubResource("CylinderMesh_1")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="Head" type="Node3D" parent="Skeleton/Pelvis/Abdomen/Chest/Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+
+[node name="HeadMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen/Chest/Neck/Head"]
+mesh = SubResource("SphereMesh_1")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="ShoulderL" type="Node3D" parent="Skeleton/Pelvis/Abdomen/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.1, 0)
+
+[node name="ShoulderLMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderL"]
+mesh = SubResource("SphereMesh_2")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="UpperArmL" type="Node3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 0)
+
+[node name="UpperArmLMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderL/UpperArmL"]
+mesh = SubResource("CylinderMesh_2")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="LowerArmL" type="Node3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderL/UpperArmL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+
+[node name="LowerArmLMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderL/UpperArmL/LowerArmL"]
+mesh = SubResource("CylinderMesh_3")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="HandL" type="Node3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderL/UpperArmL/LowerArmL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.23, 0)
+
+[node name="HandLMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderL/UpperArmL/LowerArmL/HandL"]
+mesh = SubResource("BoxMesh_4")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="ShoulderR" type="Node3D" parent="Skeleton/Pelvis/Abdomen/Chest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.1, 0)
+
+[node name="ShoulderRMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderR"]
+mesh = SubResource("SphereMesh_2")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="UpperArmR" type="Node3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16, 0)
+
+[node name="UpperArmRMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderR/UpperArmR"]
+mesh = SubResource("CylinderMesh_2")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="LowerArmR" type="Node3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderR/UpperArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+
+[node name="LowerArmRMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderR/UpperArmR/LowerArmR"]
+mesh = SubResource("CylinderMesh_3")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="HandR" type="Node3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderR/UpperArmR/LowerArmR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.23, 0)
+
+[node name="HandRMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/Abdomen/Chest/ShoulderR/UpperArmR/LowerArmR/HandR"]
+mesh = SubResource("BoxMesh_4")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="UpperLegL" type="Node3D" parent="Skeleton/Pelvis"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, -0.15, 0)
+
+[node name="UpperLegLMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/UpperLegL"]
+mesh = SubResource("CylinderMesh_4")
+surface_material_override/0 = SubResource("StandardMaterial3D_3")
+
+[node name="LowerLegL" type="Node3D" parent="Skeleton/Pelvis/UpperLegL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.425, 0)
+
+[node name="LowerLegLMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/UpperLegL/LowerLegL"]
+mesh = SubResource("CylinderMesh_5")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="FootL" type="Node3D" parent="Skeleton/Pelvis/UpperLegL/LowerLegL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.23, 0.1)
+
+[node name="FootLMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/UpperLegL/LowerLegL/FootL"]
+mesh = SubResource("BoxMesh_5")
+surface_material_override/0 = SubResource("StandardMaterial3D_4")
+
+[node name="UpperLegR" type="Node3D" parent="Skeleton/Pelvis"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, -0.15, 0)
+
+[node name="UpperLegRMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/UpperLegR"]
+mesh = SubResource("CylinderMesh_4")
+surface_material_override/0 = SubResource("StandardMaterial3D_3")
+
+[node name="LowerLegR" type="Node3D" parent="Skeleton/Pelvis/UpperLegR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.425, 0)
+
+[node name="LowerLegRMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/UpperLegR/LowerLegR"]
+mesh = SubResource("CylinderMesh_5")
+surface_material_override/0 = SubResource("StandardMaterial3D_1")
+
+[node name="FootR" type="Node3D" parent="Skeleton/Pelvis/UpperLegR/LowerLegR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.23, 0.1)
+
+[node name="FootRMesh" type="MeshInstance3D" parent="Skeleton/Pelvis/UpperLegR/LowerLegR/FootR"]
+mesh = SubResource("BoxMesh_5")
+surface_material_override/0 = SubResource("StandardMaterial3D_4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="CameraPivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 
 [node name="CameraArm" type="SpringArm3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 0.999986, 0.00523596, 0, -0.00523596, 0.999986, 0, 0, 0)
@@ -78,6 +234,6 @@ margin = 0.05
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/CameraArm"]
 
 [node name="StateLabel" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
 billboard = 1
 text = "IDLE"

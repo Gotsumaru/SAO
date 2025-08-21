@@ -4,7 +4,7 @@
 	  "name": "move_forward",
 	  "deadzone": 0.5,
 	  "events": [
-		{ "type": "key", "key": "W" },
+		{ "type": "key", "key": "Z" },
 		{ "type": "key", "key": "Up" },
 		{ "type": "joy_axis", "axis": "LEFT_Y", "value": -1.0 }
 	  ]
@@ -22,7 +22,7 @@
 	  "name": "move_left",
 	  "deadzone": 0.5,
 	  "events": [
-		{ "type": "key", "key": "A" },
+		{ "type": "key", "key": "Q" },
 		{ "type": "key", "key": "Left" },
 		{ "type": "joy_axis", "axis": "LEFT_X", "value": -1.0 }
 	  ]

@@ -26,11 +26,12 @@ var current_speed: float = WALK_SPEED
 var is_running: bool = false
 
 # Références (on les cherche par nom si pas @onready)
-var mesh_container: Node3D
+var skeleton: Node3D
 var camera_pivot: Node3D
 var camera: Camera3D
 var camera_arm: SpringArm3D
 var state_label: Label3D
+var animation_player: AnimationPlayer
 
 # Variables pour la caméra
 var camera_rotation_x: float = 0.0
@@ -45,11 +46,12 @@ var max_stamina: float = 100.0
 
 func _ready():
 	# Trouve les nodes par leur nom
-	mesh_container = get_node_or_null("MeshContainer")
+	skeleton = get_node_or_null("Skeleton")
 	camera_pivot = get_node_or_null("CameraPivot")
 	camera_arm = get_node_or_null("CameraPivot/CameraArm")
 	camera = get_node_or_null("CameraPivot/CameraArm/Camera3D")
 	state_label = get_node_or_null("StateLabel")
+	animation_player = get_node_or_null("AnimationPlayer")
 	
 	# Configure la souris
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -65,8 +67,14 @@ func _ready():
 	# Vérifie que les nodes sont trouvés
 	if not camera_pivot:
 		print("⚠️ CameraPivot non trouvé!")
-	if not mesh_container:
-		print("⚠️ MeshContainer non trouvé!")
+	if not skeleton:
+		print("⚠️ Skeleton non trouvé!")
+	if not animation_player:
+		print("⚠️ AnimationPlayer non trouvé!")
+	
+	# Charge les animations
+	if animation_player:
+		load_animations()
 
 func _input(event):
 	# Gestion de la caméra avec la souris
@@ -132,10 +140,10 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, target_velocity.x, accel * delta)
 		velocity.z = move_toward(velocity.z, target_velocity.z, accel * delta)
 		
-		# Rotation du mesh
-		if direction.length() > 0 and mesh_container:
+		# Rotation du squelette
+		if direction.length() > 0 and skeleton:
 			var target_rotation = atan2(direction.x, direction.z)
-			mesh_container.rotation.y = lerp_angle(mesh_container.rotation.y, target_rotation, ROTATION_SPEED * delta)
+			skeleton.rotation.y = lerp_angle(skeleton.rotation.y, target_rotation, ROTATION_SPEED * delta)
 		
 		# État
 		if is_on_floor():
@@ -176,13 +184,13 @@ func get_input_vector() -> Vector2:
 	if Input.is_action_pressed("move_right"):
 		input.x += 1
 	
-	# Alternative avec les touches directes si les actions ne sont pas définies
+	# Alternative avec les touches directes si les actions ne sont pas définies (ZQSD)
 	if not Input.get_action_strength("move_forward"):
-		if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
+		if Input.is_key_pressed(KEY_Z) or Input.is_key_pressed(KEY_UP):
 			input.y -= 1
 		if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
 			input.y += 1
-		if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT):
+		if Input.is_key_pressed(KEY_Q) or Input.is_key_pressed(KEY_LEFT):
 			input.x -= 1
 		if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT):
 			input.x += 1
@@ -201,21 +209,27 @@ func change_state(new_state: State):
 			State.IDLE:
 				state_label.text = "IDLE"
 				state_label.modulate = Color.WHITE
+				play_animation("idle")
 			State.WALKING:
 				state_label.text = "WALKING"
 				state_label.modulate = Color.GREEN
+				play_animation("walk")
 			State.RUNNING:
 				state_label.text = "RUNNING"
 				state_label.modulate = Color.YELLOW
+				play_animation("run")
 			State.JUMPING:
 				state_label.text = "JUMPING"
 				state_label.modulate = Color.CYAN
+				play_animation("jump")
 			State.FALLING:
 				state_label.text = "FALLING"
 				state_label.modulate = Color.ORANGE
+				play_animation("idle")
 			State.COMBAT:
 				state_label.text = "COMBAT"
 				state_label.modulate = Color.RED
+				play_animation("idle")
 
 func update_debug_info():
 	if Engine.get_process_frames() % 30 == 0:
@@ -246,3 +260,24 @@ func die():
 	global_position = Vector3(0, 1, 0)
 	current_health = max_health
 	stamina = max_stamina
+
+func load_animations():
+	if not animation_player:
+		return
+	
+	var animation_library = preload("res://animations/player_animations.tres")
+	if animation_library:
+		animation_player.add_animation_library("", animation_library)
+		print("✅ Animations chargées")
+	else:
+		print("⚠️ Impossible de charger les animations")
+
+func play_animation(anim_name: String):
+	if not animation_player:
+		return
+	
+	if animation_player.has_animation(anim_name):
+		if animation_player.current_animation != anim_name:
+			animation_player.play(anim_name)
+	else:
+		print("⚠️ Animation non trouvée: ", anim_name)
