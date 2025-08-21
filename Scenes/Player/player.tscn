@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bhlmqj5jqaa3e"]
+[gd_scene load_steps=9 format=3 uid="uid://bhlmqj5jqaa3e"]
 
 [ext_resource type="Script" uid="uid://d3mkadeopfnuv" path="res://scripts/Player.gd" id="1_uvnfx"]
 
@@ -6,11 +6,26 @@
 radius = 0.4
 height = 1.8
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_v0iea"]
-radius = 0.4
-height = 1.8
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+radius = 0.25
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cvnsp"]
+[sub_resource type="BoxMesh" id="BoxMesh_torso"]
+size = Vector3(0.6, 0.9, 0.3)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_arm"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_leg"]
+top_radius = 0.15
+bottom_radius = 0.15
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Material_skin"]
+albedo_color = Color(1, 0.8, 0.6, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_cloth"]
 albedo_color = Color(0.2, 0.4, 0.8, 1)
 
 [node name="Player" type="CharacterBody3D"]
@@ -22,10 +37,35 @@ shape = SubResource("CapsuleShape3D_cvnsp")
 
 [node name="MeshContainer" type="Node3D" parent="."]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshContainer"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-mesh = SubResource("CapsuleMesh_v0iea")
-surface_material_override/0 = SubResource("StandardMaterial3D_cvnsp")
+[node name="Head" type="MeshInstance3D" parent="MeshContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
+mesh = SubResource("SphereMesh_head")
+surface_material_override/0 = SubResource("Material_skin")
+
+[node name="Torso" type="MeshInstance3D" parent="MeshContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+mesh = SubResource("BoxMesh_torso")
+surface_material_override/0 = SubResource("Material_cloth")
+
+[node name="ArmLeft" type="MeshInstance3D" parent="MeshContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 1.2, 0)
+mesh = SubResource("CylinderMesh_arm")
+surface_material_override/0 = SubResource("Material_skin")
+
+[node name="ArmRight" type="MeshInstance3D" parent="MeshContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 1.2, 0)
+mesh = SubResource("CylinderMesh_arm")
+surface_material_override/0 = SubResource("Material_skin")
+
+[node name="LegLeft" type="MeshInstance3D" parent="MeshContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0.5, 0)
+mesh = SubResource("CylinderMesh_leg")
+surface_material_override/0 = SubResource("Material_cloth")
+
+[node name="LegRight" type="MeshInstance3D" parent="MeshContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0.5, 0)
+mesh = SubResource("CylinderMesh_leg")
+surface_material_override/0 = SubResource("Material_cloth")
 
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
