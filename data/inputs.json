@@ -1,0 +1,90 @@
+{
+  "actions": [
+	{
+	  "name": "move_forward",
+	  "deadzone": 0.5,
+	  "events": [
+		{ "type": "key", "key": "W" },
+		{ "type": "key", "key": "Up" },
+		{ "type": "joy_axis", "axis": "LEFT_Y", "value": -1.0 }
+	  ]
+	},
+	{
+	  "name": "move_backward",
+	  "deadzone": 0.5,
+	  "events": [
+		{ "type": "key", "key": "S" },
+		{ "type": "key", "key": "Down" },
+		{ "type": "joy_axis", "axis": "LEFT_Y", "value": 1.0 }
+	  ]
+	},
+	{
+	  "name": "move_left",
+	  "deadzone": 0.5,
+	  "events": [
+		{ "type": "key", "key": "A" },
+		{ "type": "key", "key": "Left" },
+		{ "type": "joy_axis", "axis": "LEFT_X", "value": -1.0 }
+	  ]
+	},
+	{
+	  "name": "move_right",
+	  "deadzone": 0.5,
+	  "events": [
+		{ "type": "key", "key": "D" },
+		{ "type": "key", "key": "Right" },
+		{ "type": "joy_axis", "axis": "LEFT_X", "value": 1.0 }
+	  ]
+	},
+	{
+	  "name": "jump",
+	  "events": [
+		{ "type": "key", "key": "Space" },
+		{ "type": "joy_button", "button": "A" }
+	  ]
+	},
+	{
+	  "name": "sprint",
+	  "events": [
+		{ "type": "key", "key": "Shift" },
+		{ "type": "joy_button", "button": "LB" }
+	  ]
+	},
+	{
+	  "name": "attack",
+	  "events": [
+		{ "type": "mouse_button", "button": "LEFT" },
+		{ "type": "joy_axis", "axis": "TRIGGER_RIGHT", "value": 1.0 }
+	  ]
+	},
+	{
+	  "name": "dodge",
+	  "events": [
+		{ "type": "mouse_button", "button": "RIGHT" },
+		{ "type": "joy_button", "button": "B" }
+	  ]
+	},
+	{
+	  "name": "interact",
+	  "events": [
+		{ "type": "key", "key": "E" },
+		{ "type": "joy_button", "button": "X" }
+	  ]
+	},
+	{
+	  "name": "pause",
+	  "events": [
+		{ "type": "key", "key": "Escape" },
+		{ "type": "joy_button", "button": "START" }
+	  ]
+	},
+	{
+	  "name": "inventory",
+	  "events": [
+		{ "type": "key", "key": "Tab" },
+		{ "type": "key", "key": "I" },
+		{ "type": "joy_button", "button": "BACK" }
+	  ]
+	}
+  ]
+}

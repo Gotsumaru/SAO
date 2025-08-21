@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://bhlmqj5jqaa3e"]
+
+[ext_resource type="Script" uid="uid://d3mkadeopfnuv" path="res://scripts/Player.gd" id="1_uvnfx"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cvnsp"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_v0iea"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cvnsp"]
+albedo_color = Color(0.2, 0.4, 0.8, 1)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_uvnfx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_cvnsp")
+
+[node name="MeshContainer" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshContainer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_v0iea")
+surface_material_override/0 = SubResource("StandardMaterial3D_cvnsp")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="CameraArm" type="SpringArm3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.999986, 0.00523596, 0, -0.00523596, 0.999986, 0, 0, 0)
+spring_length = 5.0
+margin = 0.05
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/CameraArm"]
+
+[node name="StateLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+billboard = 1
+text = "IDLE"
