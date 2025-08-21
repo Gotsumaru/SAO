@@ -1,0 +1,24 @@
+[gd_resource type="AnimationTree" format=3]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_1"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_idle"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_locomotion"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_idle")
+blend_point_0/pos = Vector2(0, 0)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_walk"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_run"]
+animation = &"run"
+
+[resource]
+tree_root = SubResource("AnimationNodeStateMachine_1")
+anim_player = NodePath("../AnimationPlayer")
+parameters/is_moving/current = 0
+parameters/is_airborne/current = 0
+parameters/movement_speed = 0.0
+parameters/locomotion/blend_position = Vector2(0, 0)
